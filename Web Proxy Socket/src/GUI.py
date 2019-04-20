@@ -14,3 +14,6 @@ e1.grid(row = 0, column = 1)
 Button(master, text='Show', command=open_webbrowser).grid(row=3, column=1, sticky=W, pady=4)
 
 master.mainloop()
+'''
+This is just for fun, openning firefox
+'''
