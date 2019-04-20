@@ -4,39 +4,36 @@ import _thread
 
 size = 20480
 
-def black_list(): #hàm này là đọc file black list
+def black_list(): 
     data = open("blacklist.conf", "r")
     black_data = data.readlines()
     black_data = [x.strip() for x in black_data]
     data.close()
     return black_data
 
-def proxy_thread(request): #hàm này để phân tích cái gói tin gửi 
-    change_format = request.decode("utf-8") #chuyển dạng gói tin về với định dạng utf-8
-    first_line = change_format.split('\n')[0] # parse the first line
+def proxy_thread(request): 
+    change_format = request.decode("utf-8") 
+    first_line = change_format.split('\n')[0]
 
-    # find the webserver and port
-    url = first_line.split(' ')[1]  #dòng này lấy cái địa chỉ url
+    url = first_line.split(' ')[1]  
 
-    http_pos = url.find("://") # tìm ://
+    http_pos = url.find("://")
     if(http_pos == -1):
         temp = url
     else:
         temp = url[(http_pos + 3):]
 
-    #tìm cái port phụ nếu có
     port_pos = temp.find(":")
 
-    #tìm kết thúc của cái server
     web_server_pos = temp.find("/")
 
     if web_server_pos == -1:
         web_server_pos = len(temp)
 
     if port_pos==-1 or web_server_pos < port_pos:
-        port = 80   #set lại port bằng 80(80 là HTTP)
+        port = 80   
         web_server = temp[:web_server_pos]
-    else:   #port riêng nè
+    else:   
         port = int((temp[(port_pos + 1):])[:web_server_pos - port_pos - 1])
         web_server = temp[:port_pos]
 
